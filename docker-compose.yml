@@ -12,6 +12,6 @@ services:
     volumes:
       - $SSH_AUTH_SOCK:/ssh-agent
       - ./private:/private
-    working_dir: /private
     tty: true
+    working_dir: /private/abx-ltd
     network_mode: host
