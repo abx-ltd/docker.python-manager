@@ -31,7 +31,10 @@ RUN mkdir -p /home/$USERNAME/.ssh && chmod 700 /home/$USERNAME/.ssh
 
 # Add a default SSH config (you can override via volume later)
 COPY ssh_config /home/$USERNAME/.ssh/config
-RUN chmod 600 /home/$USERNAME/.ssh/config
+COPY gh_abx.pub /home/$USERNAME/.ssh/gh_abx.pub
+COPY gh_ncs.pub /home/$USERNAME/.ssh/gh_ncs.pub
+
+RUN chmod 600 /home/$USERNAME/.ssh/*
 
 # Switch to non-root user by default
 USER $USERNAME

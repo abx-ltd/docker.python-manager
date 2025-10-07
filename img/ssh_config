@@ -2,3 +2,15 @@ Host *
     ForwardAgent yes
     StrictHostKeyChecking no
     UserKnownHostsFile=/dev/null
+
+Host gh_ncs
+    HostName github.com
+    User git
+    AddKeysToAgent yes
+    IdentityFile ~/.ssh/gh_ncs.pub
+
+Host gh_abx
+    HostName github.com
+    User git
+    AddKeysToAgent yes
+    IdentityFile ~/.ssh/gh_abx.pub
