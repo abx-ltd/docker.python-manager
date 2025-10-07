@@ -1,5 +1,10 @@
 FROM python:3.12.11-trixie
 
+# Create a normal user
+ARG USERNAME=appuser
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
 # Install system dependencies and tools (including just)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
@@ -12,16 +17,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install uv via apt (official Astral package)
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
 RUN pip install tsrc fastapi
+
 # Create a non-root user
-RUN useradd -m appuser
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
 
 # Create the /private directory and assign ownership
-RUN mkdir -p /private/abx-ltd && chown -R appuser:appuser /private
+RUN mkdir -p /private/abx-ltd && chown -R $USERNAME:$USERNAME /private
+
+# Add SSH config directory for the user
+RUN mkdir -p /home/$USERNAME/.ssh && chmod 700 /home/$USERNAME/.ssh
+
+# Add a default SSH config (you can override via volume later)
+COPY ssh_config /home/$USERNAME/.ssh/config
+RUN chmod 600 /home/$USERNAME/.ssh/config
 
 # Switch to non-root user by default
-USER appuser
+USER $USERNAME
 
 # Set working directory
 WORKDIR /private
