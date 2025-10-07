@@ -1,10 +1,5 @@
 FROM python:3.12.11-trixie
 
-# Create a normal user
-ARG USERNAME=appuser
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
 # Install system dependencies and tools (including just)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
@@ -19,29 +14,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 RUN pip install tsrc fastapi
 
-# Create a non-root user
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
-
-# Create the /private directory and assign ownership
-RUN mkdir -p /private/abx-ltd && chown -R $USERNAME:$USERNAME /private
-
 # Add SSH config directory for the user
-RUN mkdir -p /home/$USERNAME/.ssh && chmod 700 /home/$USERNAME/.ssh
+RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh
+RUN mkdir -p /private/abx-ltd
 
 # Add a default SSH config (you can override via volume later)
-COPY ssh_config /home/$USERNAME/.ssh/config
-COPY gh_abx.pub /home/$USERNAME/.ssh/gh_abx.pub
-COPY gh_ncs.pub /home/$USERNAME/.ssh/gh_ncs.pub
+COPY ssh_config /root/.ssh/config
+COPY gh_abx.pub /root/.ssh/gh_abx.pub
+COPY gh_ncs.pub /root/.ssh/gh_ncs.pub
 
-RUN chmod 600 /home/$USERNAME/.ssh/*
-RUN chown $USERNAME /home/$USERNAME/.ssh/*
-
-# Switch to non-root user by default
-USER $USERNAME
+RUN chmod 600 /root/.ssh/*
 
 # Set working directory
-WORKDIR /private
+WORKDIR /private/abx-ltd
 
 # Default command
 CMD ["bash"]
