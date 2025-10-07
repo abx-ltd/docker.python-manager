@@ -1,13 +1,13 @@
 services:
   python-manager:
     build:
-      context: .
-      dockerfile: Dockerfile
-    # dns:
-    #   - 8.8.8.8
-    #   - 1.1.1.1
+      context: ./img
+      dockerfile: dockerfile
+    environment:
+      - SSH_AUTH_SOCK=/ssh-agent
     container_name: python_3_12_trixie
     volumes:
+      - $SSH_AUTH_SOCK:/ssh-agent
       - ./private:/private
     working_dir: /private
     tty: true

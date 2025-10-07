@@ -18,7 +18,7 @@ RUN pip install tsrc fastapi
 RUN useradd -m appuser
 
 # Create the /private directory and assign ownership
-RUN mkdir -p /private && chown -R appuser:appuser /private
+RUN mkdir -p /private/abx-ltd && chown -R appuser:appuser /private
 
 # Switch to non-root user by default
 USER appuser
