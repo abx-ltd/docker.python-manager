@@ -11,7 +11,10 @@ services:
     container_name: python_3_12_trixie
     volumes:
       - $SSH_AUTH_SOCK:/ssh-agent
-      - ./private:/private
+      - app_private_data:/private
     tty: true
     working_dir: /private/abx-ltd
     network_mode: host
+volumes:
+  app_private_data:
+    driver: local
