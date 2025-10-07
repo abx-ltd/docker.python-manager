@@ -9,8 +9,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
 # Install uv via apt (official Astral package)
-RUN curl -fsSL https://astral.sh/uv/install.sh | sh -s -- --apt
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
+RUN pip install tsrc fastapi
 # Create a non-root user
 RUN useradd -m appuser
 

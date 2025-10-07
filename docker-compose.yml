@@ -1,8 +1,11 @@
 services:
-  python-manage:
+  python-manager:
     build:
       context: .
       dockerfile: Dockerfile
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     container_name: python_3_12_trixie
     volumes:
       - ./private:/private
