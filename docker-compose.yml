@@ -1,7 +1,5 @@
-version: "3.9"
-
 services:
-  python-app:
+  python-manage:
     build:
       context: .
       dockerfile: Dockerfile
