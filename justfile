@@ -8,4 +8,4 @@ up:
     docker compose up
 
 run:
-    docker compose run -it python-manager
+    docker compose run --rm -it python-manager

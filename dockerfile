@@ -5,7 +5,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     build-essential \
+    dnsutils \
     just \
+    neovim tmux pinfo htop mc \
  && rm -rf /var/lib/apt/lists/*
 
 # Install uv via apt (official Astral package)
