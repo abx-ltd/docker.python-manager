@@ -1,5 +1,16 @@
 FROM python:3.12.11-trixie
 
+# Install system dependencies and tools (including just)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    build-essential \
+    just \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install uv via apt (official Astral package)
+RUN curl -fsSL https://astral.sh/uv/install.sh | sh -s -- --apt
+
 # Create a non-root user
 RUN useradd -m appuser
 
@@ -11,10 +22,6 @@ USER appuser
 
 # Set working directory
 WORKDIR /private
-
-# Optional: copy requirements and install dependencies
-# COPY requirements.txt .
-# RUN pip install --no-cache-dir -r requirements.txt
 
 # Default command
 CMD ["bash"]
