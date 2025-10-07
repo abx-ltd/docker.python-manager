@@ -35,6 +35,7 @@ COPY gh_abx.pub /home/$USERNAME/.ssh/gh_abx.pub
 COPY gh_ncs.pub /home/$USERNAME/.ssh/gh_ncs.pub
 
 RUN chmod 600 /home/$USERNAME/.ssh/*
+RUN chown $USERNAME /home/$USERNAME/.ssh/*
 
 # Switch to non-root user by default
 USER $USERNAME

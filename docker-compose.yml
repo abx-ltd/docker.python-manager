@@ -15,4 +15,4 @@ services:
     working_dir: /private
     tty: true
     network_mode: host
-    user: root
+    user: appuser
