@@ -7,20 +7,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 curl \
 ca-certificates \
 build-essential \
-dnsutils iputils-ping \
+dnsutils iputils-ping net-tools \
 just \
 neovim tmux pinfo htop mc fish \
 && rm -rf /var/lib/apt/lists/*
 
 # Install code-server (VS Code headless)
 RUN curl -fsSL https://code-server.dev/install.sh | sh
+RUN code-server --install-extension nefrob.vscode-just-syntax
+RUN code-server --install-extension ms-python.python
+RUN code-server --install-extension ms-python.debugpy
+RUN code-server --install-extension python-beautifier.python-beautifier
 
 # Expose code-server port
 EXPOSE 8080
 
 # Install uv via apt (official Astral package)
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-RUN pip install tsrc fastapi uvicorn
+RUN pip install tsrc fastapi uvicorn pandas sqlalchemy click
 
 # Add SSH config directory for the user
 ADD ssh_config /root/.ssh
@@ -33,8 +37,6 @@ RUN chmod +x /app/entrypoint.sh
 RUN mkdir -p /root/.config/code-server
 
 # Optional: provide a config file
-RUN echo 'bind-addr: 0.0.0.0:8080\nauth: none\n' > /root/.config/code-server/config.yaml
-
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 

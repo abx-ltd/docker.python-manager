@@ -6,6 +6,8 @@ services:
     dns:
       - 1.1.1.1
       - 8.8.8.8
+    ports:
+      - "8888:8888"   # 👈 expose code-server to host on port 8080
     environment:
       - SSH_AUTH_SOCK=/ssh-agent
     env_file:
