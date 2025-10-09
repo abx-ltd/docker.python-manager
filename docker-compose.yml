@@ -9,23 +9,26 @@ services:
     environment:
       - SSH_AUTH_SOCK=/ssh-agent
     env_file:
-      - ./workspace.env
+      - ./.env
     container_name: python_3_12_trixie
     volumes:
       - $SSH_AUTH_SOCK:/ssh-agent
       - app_private_data:/private
     tty: true
+    working_dir: $WORKSPACE_DIR
     network_mode: host
+
   java-synthea:
     build:
       context: ./img/java-synthea
       dockerfile: dockerfile
-    env_file:
-      - ./workspace.env
     container_name: java_synthea
+    env_file:
+      - ./.env
     volumes:
       - app_private_data:/private
     tty: true
+    working_dir: $WORKSPACE_DIR
     network_mode: host
 
 volumes:
