@@ -13,6 +13,10 @@ echo "= Variables:"
 echo "=  - WORKSPACE_DIR : ${WORKSPACE_DIR}"
 echo "=  - TARGET_ENV    : ${TARGET_ENV}"
 
+echo "=== START VSCODE ==="
+
+nohup code-server ${WORKSPACE_DIR} >/root/code-server.log
+
 echo "=== BEGIN ==="
 
 # If you want to run a default command when none is passed
