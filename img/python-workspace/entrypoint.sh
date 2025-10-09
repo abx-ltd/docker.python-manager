@@ -15,7 +15,7 @@ echo "=  - TARGET_ENV    : ${TARGET_ENV}"
 
 echo "=== START VSCODE ==="
 
-nohup code-server ${WORKSPACE_DIR} >/root/code-server.log
+nohup code-server "${WORKSPACE_DIR:-/workspace}" --bind-addr 0.0.0.0:8888 --auth none > /root/code-server.log 2>&1 & disown
 
 echo "=== BEGIN ==="
 
