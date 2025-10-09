@@ -7,9 +7,11 @@ help:
 @up:
     docker compose up
 
-@run-python-workspace:
+# Run the workspace container
+@run:
     docker compose run --rm -it python-workspace
 
+# Run data generator
 @run-java-synthea:
     docker compose run --rm -it java-synthea
 
