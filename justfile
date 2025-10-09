@@ -7,5 +7,8 @@ build:
 up:
     docker compose up
 
-run:
-    docker compose run --rm -it python-manager
+run-python-workspace:
+    docker compose run --rm -it python-workspace
+
+run-java-synthea:
+    docker compose run --rm -it java-synthea

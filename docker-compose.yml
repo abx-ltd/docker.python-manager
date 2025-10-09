@@ -1,20 +1,33 @@
 services:
-  python-manager:
+  python-workspace:
     build:
-      context: ./img
+      context: ./img/python-workspace
       dockerfile: dockerfile
     dns:
       - 1.1.1.1
       - 8.8.8.8
     environment:
       - SSH_AUTH_SOCK=/ssh-agent
+    env_file:
+      - ./workspace.env
     container_name: python_3_12_trixie
     volumes:
       - $SSH_AUTH_SOCK:/ssh-agent
       - app_private_data:/private
     tty: true
-    working_dir: /private/abx-ltd
     network_mode: host
+  java-synthea:
+    build:
+      context: ./img/java-synthea
+      dockerfile: dockerfile
+    env_file:
+      - ./workspace.env
+    container_name: java_synthea
+    volumes:
+      - app_private_data:/private
+    tty: true
+    network_mode: host
+
 volumes:
   app_private_data:
     driver: local

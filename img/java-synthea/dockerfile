@@ -1,0 +1,21 @@
+FROM openjdk:26-jdk-trixie
+
+ENV POPULATION_SIZE=250
+ENV DATASET_NAME=synthea_florida
+
+VOLUME /private
+ENV WORKSPACE_DIR=/private/abx-ltd/workspace
+ENV OUTPUT_DIR=$WORKSPACE_DIR/data/dataset/$DATASET_NAME
+
+
+RUN mkdir -p /app/synthea /app/dataset/$DATASET_NAME
+
+WORKDIR  /app/synthea
+
+RUN curl -L -o /app/synthea/synthea-with-dependencies.jar https://github.com/synthetichealth/synthea/releases/download/master-branch-latest/synthea-with-dependencies.jar
+
+COPY ./synthea.properties /app/synthea/
+
+ENTRYPOINT  ["java", "-jar" , "/app/synthea/synthea-with-dependencies.jar", "-c", "/app/synthea/synthea.properties" , "--exporter.baseDirectory", "/app/dataset/$DATASET_NAME" ] 
+
+CMD ["-p" , "50"]

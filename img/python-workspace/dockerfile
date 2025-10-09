@@ -1,13 +1,16 @@
 FROM python:3.12.11-trixie
 
+VOLUME /private
+ENV WORKSPACE_DIR=/private/abx-ltd/workspace
+
 # Install system dependencies and tools (including just)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     build-essential \
-    dnsutils \
+    dnsutils iputils-ping \
     just \
-    neovim tmux pinfo htop mc \
+    neovim tmux pinfo htop mc fish \
  && rm -rf /var/lib/apt/lists/*
 
 # Install uv via apt (official Astral package)
@@ -26,7 +29,7 @@ COPY gh_ncs.pub /root/.ssh/gh_ncs.pub
 RUN chmod 600 /root/.ssh/*
 
 # Set working directory
-WORKDIR /private/abx-ltd
+WORKDIR $WORKSPACE_DIR
 
 # Default command
 CMD ["bash"]
